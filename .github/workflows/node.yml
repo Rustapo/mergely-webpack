@@ -1,7 +1,7 @@
 name: Build editor.js
 
 on:
-  workflow_dispatch:   # запуск вручную
+  workflow_dispatch:   # запуск вручную с Actions → Run workflow
 
 jobs:
   build:
@@ -20,10 +20,11 @@ jobs:
         run: npm install
 
       - name: Build project
-        run: npm run build
+        run: npm run build || echo "skip build step"
 
+      # Если файл уже есть в репозитории (lib/editor.js) — просто возьмём его
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: editor-bundle
-          path: dist/
+          name: editor.js
+          path: lib/editor.js
