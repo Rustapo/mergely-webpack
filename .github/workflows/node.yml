@@ -1,17 +1,16 @@
 name: Build editor.js
 
 on:
-  workflow_dispatch:   # запуск вручную с Actions → Run workflow
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
@@ -19,15 +18,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build project
-        run: npm run build || echo "skip build step"
+      - name: Build with Webpack
+        run: npx webpack --config BuilderFiles/webpack.config.js
 
-      - name: List files (debug)
-        run: ls -R
-
-      - name: Upload all JS files
+      - name: Upload editor.js
         uses: actions/upload-artifact@v4
         with:
-          name: all-js-files
-          path: "**/*.js"
-          if-no-files-found: warn
+          name: editor-build
+          path: dist/*.js
