@@ -22,9 +22,15 @@ jobs:
       - name: Build project
         run: npm run build || echo "skip build step"
 
-      # Если файл уже есть в репозитории (lib/editor.js) — просто возьмём его
-      - name: Upload artifact
+      - name: List files (debug)
+        run: ls -R
+
+      - name: Upload editor.js if exists
         uses: actions/upload-artifact@v4
         with:
           name: editor.js
-          path: lib/editor.js
+          path: |
+            dist/editor.js
+            lib/editor.js
+            editor.js
+          if-no-files-found: warn
