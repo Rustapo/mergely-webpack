@@ -25,12 +25,9 @@ jobs:
       - name: List files (debug)
         run: ls -R
 
-      - name: Upload editor.js if exists
+      - name: Upload all JS files
         uses: actions/upload-artifact@v4
         with:
-          name: editor.js
-          path: |
-            dist/editor.js
-            lib/editor.js
-            editor.js
+          name: all-js-files
+          path: "**/*.js"
           if-no-files-found: warn
